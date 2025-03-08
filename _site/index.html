@@ -1,208 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
-<!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Home | Recipes Analysis</title>
-<meta name="generator" content="Jekyll v4.4.1">
-<meta property="og:title" content="Home">
-<meta property="og:locale" content="en_US">
-<link rel="canonical" href="http://localhost:4000/">
-<meta property="og:url" content="http://localhost:4000/">
-<meta property="og:site_name" content="Recipes Analysis">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta property="twitter:title" content="Home">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","headline":"Home","name":"Recipes Analysis","url":"http://localhost:4000/"}</script>
-<!-- End Jekyll SEO tag -->
-<link rel="icon" href="">
-  <link rel="canonical" href="http://localhost:4000">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
-  <link rel="stylesheet" href="/assets/css/main.css">
-  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Recipes Analysis">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
-<!-- and it's easy to individually load additional languages -->
-<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js" async></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-// Init highlight js
-document.addEventListener('DOMContentLoaded', function(event) {
-  var els = document.querySelectorAll('pre code')
-
-  function addLangData(block) {
-    var outer = block.parentElement.parentElement.parentElement;
-    var lang = block.getAttribute('data-lang');
-    for (var i = 0; i < outer.classList.length; i++) {
-      var cls = outer.classList[i];
-      if (cls.startsWith('language-')) {
-        lang = cls;
-        break;
-      }
-    }
-    if (!lang) {
-      cls = block.getAttribute('class');
-      lang = cls ? cls.replace('hljs ', '') : '';
-    }
-    if (lang.startsWith('language-')) {
-      lang = lang.substr(9);
-    }
-    block.setAttribute('class', 'hljs ' + lang);
-    block.parentNode.setAttribute('data-lang', lang);
-  }
-
-  function addBadge(block) {
-    var enabled = ('true' || 'true').toLowerCase();
-    if (enabled == 'true') {
-      var pre = block.parentElement;
-      pre.classList.add('badge');
-    }
-  }
-
-  function handle(block) {
-    addLangData(block);
-    addBadge(block)
-    hljs.highlightBlock(block);
-  }
-
-  for (var i = 0; i < els.length; i++) {
-    var el = els[i];
-    handle(el);
-  }
-});
-</script>
-
-<style>
-  /* code language badge */
-  pre.badge::before {
-    content: attr(data-lang);
-    color: #fff;
-    background-color: #ff4e00;
-    padding: 0 .5em;
-    border-radius: 0 2px;
-    text-transform: uppercase;
-    text-align: center;
-    min-width: 32px;
-    display: inline-block;
-    position: absolute;
-    right: 0;
-  }
-
-  /* fix wrong badge display for firefox browser */
-  code > table pre::before {
-    display: none;
-  }
-</style>
-<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
-<link href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css" rel="stylesheet">
-<style>
-  .pswp .pswp__container .pswp__img {
-    background-color: white;
-  }
-</style>
-
-<script>
-  function initPhotoSwipe() {
-    let customOptions = {};
-
-    try {
-      const data = ``.replaceAll("=>", ":");
-      customOptions = JSON.parse(data);
-    } catch (e) {
-      console.info("Invalid custom photo previewer options! " + e.message);
-    }
-
-    // Define object and gallery options
-    const options = Object.assign(
-      {
-        gallery: "section.main",
-        children: "a.photo-swipe",
-        photo_scale: 2,
-        // dynamic import is not supported in UMD version
-        pswpModule: PhotoSwipe,
-      },
-      customOptions
-    );
-
-    const galleryEl = document.querySelector(options.gallery);
-    if (!galleryEl) {
-      return;
-    }
-
-    const imgEls = [];
-    const els = galleryEl.querySelectorAll("img:not(.emoji)");
-    els.forEach((el) => {
-      if (el.src.trim() == "") {
-        return;
-      }
-      if (!imgEls.includes(el)) {
-        imgEls.push(el);
-      }
-    });
-
-    if (imgEls.length === 0) {
-      return;
-    }
-
-    imgEls.forEach((imgEl) => {
-      imgEl.outerHTML = `
-      <a class="photo-swipe"
-        href="${imgEl.src}"
-        data-pswp-width="${
-          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
-        }"
-        data-pswp-height="${
-          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
-        }"
-        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
-        target="_blank">
-        ${imgEl.outerHTML}
-      </a>`;
-    });
-
-    // Initialize PhotoSwipe 5
-    var lightbox = new PhotoSwipeLightbox(options);
-
-    lightbox.init();
-  }
-
-  window.addEventListener("load", initPhotoSwipe);
-</script>
-</head>
-<body>
-
-
-
-
-
-
-
-
 
 
 
@@ -928,4 +723,69 @@ function googleTranslateElementInit() {
   </div>
 </footer>
 </body>
+=======
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Recipes Analysis | RecipesAnalysis</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Recipes Analysis" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="RecipesAnalysis" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Recipes Analysis" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","headline":"Recipes Analysis","name":"RecipesAnalysis","url":"http://localhost:4000/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=a0a2bde3dbdbecd19cb3d81f4fb8099553b0b3c1">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Recipes Analysis</h1>
+      <h2 class="project-tagline"></h2>
+      
+        <a href="https://github.com/vdanielb/RecipesAnalysis" class="btn">View on GitHub</a>
+      
+      
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="recipes-analysis">Recipes Analysis</h1>
+<p>By Daniel Budidharma and Tristan Leo<br />
+A DSC80 Project</p>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/vdanielb/RecipesAnalysis">RecipesAnalysis</a> is maintained by <a href="https://github.com/vdanielb">vdanielb</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+>>>>>>> tmp
 </html>
