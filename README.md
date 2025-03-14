@@ -1,18 +1,18 @@
-# Is American food just unhealthy?
+# Is American Food Unhealthy?
 
 **An investigation by**
 - [Daniel Budidharma](https://vdanielb.github.io)
 - [Tristan Leo](https://www.linkedin.com/in/tristan-leo-0b12a9340/)
 
 ## Table of Contents
-- [Is American food just unhealthy?](#is-american-food-just-unhealthy)
+- [Is American Food Unhealthy?](#is-american-food-unhealthy)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Data Cleaning and Exploratory Data Analysis](#data-cleaning-and-exploratory-data-analysis)
 
 ## Introduction
 
-The United States has one of the highest obesity rates in the world. According to the CDC, [more than 2 in 5 U.S. adults are considered obese](https://www.cdc.gov/obesity/adult-obesity-facts/index.html). Why is this? Is it just the food that Americans eat? 
+**The United States has one of the highest obesity rates in the world**. According to the CDC, [more than 2 in 5 U.S. adults are considered obese](https://www.cdc.gov/obesity/adult-obesity-facts/index.html). Why is this? Is it just the food that Americans eat? 
 
 Today, we will explore data on nearly 100,000 recipes scraped from [food.com](https://www.food.com) to explore this question. The dataset we will use was scraped by the authors of [this](https://cseweb.ucsd.edu/~jmcauley/pdfs/emnlp19c.pdf) paper, and is linked [here](https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions). For practical reasons, we will only be using a subset of this data. In addition, we also have data on over 70,000 reviews and ratings on food.com.  
 
