@@ -4,7 +4,6 @@
 - [Tristan Leo](https://www.linkedin.com/in/tristan-leo-0b12a9340/)
 
 ## Introduction
-Provide an introduction to your dataset, and clearly state the one question your project is centered around. Why should readers of your website care about the dataset and your question specifically? Report the number of rows in the dataset, the names of the columns that are relevant to your question, and descriptions of those relevant columns.
 
 **Is American food just unhealthy?** The United States has one of the highest obesity rates in the world. According to the CDC, [more than 2 in 5 U.S. adults are considered obese](https://www.cdc.gov/obesity/adult-obesity-facts/index.html). Why is this? Is it just the food that Americans eat? 
 
