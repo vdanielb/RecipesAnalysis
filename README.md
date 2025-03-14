@@ -20,7 +20,7 @@ Today, we will explore data on nearly 100,000 recipes scraped from [food.com](ht
 Our first dataset `recipes` contains 83,782 rows, each corresponding to a unique recipe uploaded by a user. It has 12 columns:
 
 | Column name | Description                                                                                          |
-| :------ :---------------------------------------------------------------------------------------------------- |
+| :---------- | :---------------------------------------------------------------------------------------------------- |
 | `'name'`           | Name of the recipe                                                             |
 | `'id'`             | id of the recipe                                                 |
 | `'minutes'`        | How long it takes to make the recipe in minutes |  
