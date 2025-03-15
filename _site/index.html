@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
 
 <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Recipes Analysis | RecipesAnalysis</title>
+<title>Is American Food Unhealthy? | RecipesAnalysis</title>
 <meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="Recipes Analysis" />
+<meta property="og:title" content="Is American Food Unhealthy?" />
 <meta property="og:locale" content="en_US" />
+<meta name="description" content="An investigation on American recipes on food.com, as well as a Random Forest Regression model that can calculate how long it takes to cook your recipe!" />
+<meta property="og:description" content="An investigation on American recipes on food.com, as well as a Random Forest Regression model that can calculate how long it takes to cook your recipe!" />
 <link rel="canonical" href="http://localhost:4000/" />
 <meta property="og:url" content="http://localhost:4000/" />
 <meta property="og:site_name" content="RecipesAnalysis" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Recipes Analysis" />
+<meta property="twitter:title" content="Is American Food Unhealthy?" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","headline":"Recipes Analysis","name":"RecipesAnalysis","url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"WebSite","description":"An investigation on American recipes on food.com, as well as a Random Forest Regression model that can calculate how long it takes to cook your recipe!","headline":"Is American Food Unhealthy?","name":"RecipesAnalysis","url":"http://localhost:4000/"}</script>
 <!-- End Jekyll SEO tag -->
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -23,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="/assets/css/style.css?v=37b77d588e34d2f8d7d995bb0b27fd33a5386847">
+    <link rel="stylesheet" href="/assets/css/style.css?v=d4e3555804df599da56451fdc2b3992c7d740e8e">
     <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
 
 <!-- Setup Google Analytics -->
@@ -40,8 +42,8 @@
     <a id="skip-to-content" href="#content">Skip to the content.</a>
 
     <header class="page-header" role="banner">
-      <h1 class="project-name">Recipes Analysis</h1>
-      <h2 class="project-tagline"></h2>
+      <h1 class="project-name">Is American Food Unhealthy?</h1>
+      <h2 class="project-tagline">An investigation on American recipes on food.com, as well as a Random Forest Regression model that can calculate how long it takes to cook your recipe!</h2>
       
         <a href="https://github.com/vdanielb/RecipesAnalysis" class="btn">View on GitHub</a>
       
@@ -49,17 +51,50 @@
     </header>
 
     <main id="content" class="main-content" role="main">
-      <h1 id="recipes-analysis">Recipes Analysis</h1>
-<p><strong>Authors</strong></p>
+      <h1 id="is-american-food-unhealthy">Is American Food Unhealthy?</h1>
+
+<p><strong>An investigation by</strong></p>
 <ul>
   <li><a href="https://vdanielb.github.io">Daniel Budidharma</a></li>
   <li><a href="https://www.linkedin.com/in/tristan-leo-0b12a9340/">Tristan Leo</a></li>
 </ul>
 
-<h2 id="introduction">Introduction</h2>
-<p>Provide an introduction to your dataset, and clearly state the one question your project is centered around. Why should readers of your website care about the dataset and your question specifically? Report the number of rows in the dataset, the names of the columns that are relevant to your question, and descriptions of those relevant columns.</p>
+<h1 id="table-of-contents">Table of Contents</h1>
+<ul>
+  <li><a href="#is-american-food-unhealthy">Is American Food Unhealthy?</a></li>
+  <li><a href="#table-of-contents">Table of Contents</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#data-cleaning-and-exploratory-data-analysis">Data Cleaning and Exploratory Data Analysis</a>
+    <ul>
+      <li><a href="#data-cleaning-steps">Data Cleaning Steps</a></li>
+      <li><a href="#exploratory-data-analysis">Exploratory Data Analysis</a>
+        <ul>
+          <li><a href="#univariate-analysis">Univariate Analysis</a></li>
+          <li><a href="#bivariate-analysis">Bivariate Analysis</a></li>
+          <li><a href="#interesting-aggregates">Interesting Aggregates</a></li>
+        </ul>
+      </li>
+      <li><a href="#assessment-of-missingness">Assessment of Missingness</a></li>
+    </ul>
+  </li>
+  <li><a href="#hypothesis-test-are-american-recipes-more-unhealthy">Hypothesis Test: Are American recipes more unhealthy?</a></li>
+  <li><a href="#framing-a-prediction-problem">Framing a Prediction Problem</a></li>
+  <li><a href="#baseline-model">Baseline Model</a></li>
+  <li><a href="#final-model">Final Model</a>
+    <ul>
+      <li><a href="#good-recipes-vs-all-recipes">Good Recipes vs All Recipes</a></li>
+      <li><a href="#optimizing-gridsearchcv-on-rmse-vs-r2">Optimizing GridSearchCV on RMSE vs R^2</a></li>
+      <li><a href="#hyperparameter-tuning">Hyperparameter Tuning</a></li>
+      <li><a href="#comparison-of-models">Comparison of Models</a></li>
+      <li><a href="#our-final-model">Our Final Model</a></li>
+    </ul>
+  </li>
+  <li><a href="#fairness-analysis">Fairness Analysis</a></li>
+</ul>
 
-<p><strong>Is American food just unhealthy?</strong> The United States has one of the highest obesity rates in the world. According to the CDC, <a href="https://www.cdc.gov/obesity/adult-obesity-facts/index.html">more than 2 in 5 U.S. adults are considered obese</a>. Why is this? Is it just the food that Americans eat?</p>
+<h1 id="introduction">Introduction</h1>
+
+<p><strong>The United States has one of the highest obesity rates in the world</strong>. According to the CDC, <a href="https://www.cdc.gov/obesity/adult-obesity-facts/index.html">more than 2 in 5 U.S. adults are considered obese</a>. Why is this? Is it just the food that Americans eat?</p>
 
 <p>Today, we will explore data on nearly 100,000 recipes scraped from <a href="https://www.food.com">food.com</a> to explore this question. The dataset we will use was scraped by the authors of <a href="https://cseweb.ucsd.edu/~jmcauley/pdfs/emnlp19c.pdf">this</a> paper, and is linked <a href="https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions">here</a>. For practical reasons, we will only be using a subset of this data. In addition, we also have data on over 70,000 reviews and ratings on food.com.</p>
 
@@ -87,7 +122,7 @@
     </tr>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'contributor_id'</code></td>
-      <td style="text-align: left">The user ID belonging to the uploader of this recipe</td>
+      <td style="text-align: left">User ID belonging to the uploader of this recipe</td>
     </tr>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'submitted'</code></td>
@@ -99,7 +134,7 @@
     </tr>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'nutrition'</code></td>
-      <td style="text-align: left">List of nutritional values in the order of calories, total fat, sugar, sodium, protein, saturated fat,carbohydrates. Other than calories, nutrition is measured as a percentage of daily value</td>
+      <td style="text-align: left">List of nutritional values in the order of calories, total fat, sugar, sodium, protein, saturated fat,carbohydrates. Note: other than calories, nutrition is measured as a percentage of daily value</td>
     </tr>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'n_steps'</code></td>
@@ -124,7 +159,7 @@
   </tbody>
 </table>
 
-<p>The second dataset is <code class="language-plaintext highlighter-rouge">interactions</code>. It contains 73,1927, each row corresponding to a single review on food.com towards a recipe. It has 5 columns:</p>
+<p>The second dataset is <code class="language-plaintext highlighter-rouge">interactions</code>. It contains 731,927 rows, each corresponding to a single review on food.com towards a recipe. It has 5 columns:</p>
 
 <table>
   <thead>
@@ -136,15 +171,15 @@
   <tbody>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'user_id'</code></td>
-      <td style="text-align: left">User ID</td>
+      <td style="text-align: left">id of user who uploaded review</td>
     </tr>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'recipe_id'</code></td>
-      <td style="text-align: left">Recipe ID</td>
+      <td style="text-align: left">id of recipe being reviewed</td>
     </tr>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'date'</code></td>
-      <td style="text-align: left">Date of interaction</td>
+      <td style="text-align: left">Date review got posted</td>
     </tr>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'rating'</code></td>
@@ -152,12 +187,618 @@
     </tr>
     <tr>
       <td style="text-align: left"><code class="language-plaintext highlighter-rouge">'review'</code></td>
-      <td style="text-align: left">Review text</td>
+      <td style="text-align: left">The review</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="data-cleaning-and-exploratory-data-analysis">Data Cleaning and Exploratory Data Analysis</h2>
+<h1 id="data-cleaning-and-exploratory-data-analysis">Data Cleaning and Exploratory Data Analysis</h1>
+
+<h2 id="data-cleaning-steps">Data Cleaning Steps</h2>
+<ol>
+  <li>To begin our data cleaning process, we first removed the <code class="language-plaintext highlighter-rouge">Unnamed: 0</code> column from our <code class="language-plaintext highlighter-rouge">recipes</code> dataframe, which represents the index number on the original dataset before we took a subset of it.</li>
+  <li>We replaced ratings of 0 with NaN because the lowest possible rating is 1. So, a rating of 0 means that the reviewer did not leave a rating.</li>
+  <li>We also noticed that the values in the <code class="language-plaintext highlighter-rouge">tags</code>, <code class="language-plaintext highlighter-rouge">nutrition</code>, <code class="language-plaintext highlighter-rouge">steps</code>, and <code class="language-plaintext highlighter-rouge">ingredients</code>columns are represented as strings, so we had to convert them into lists in order to perform list operations.</li>
+  <li>We did a left merge on the <code class="language-plaintext highlighter-rouge">recipes</code> and <code class="language-plaintext highlighter-rouge">ratings</code> dataframes to obtain a new dataframe with each row corresponding to a review for a particular recipe.</li>
+</ol>
+
+<p><strong>Note:</strong> Most of our analyses won’t involve the merged dataframe. The purpose of the merged dataframe is just to compute the average rating and number of reviews of each recipe.</p>
+
+<ol>
+  <li>We computed the average rating per recipe.</li>
+  <li>We added a new column <code class="language-plaintext highlighter-rouge">is_american</code>, which has a value of 1 if the recipe has an “american” tag or 0 otherwise.</li>
+  <li>We also added a new column <code class="language-plaintext highlighter-rouge">saturated_fat</code>, which has the saturated fat content of each recipe in percentage of daily value.</li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">name</th>
+      <th style="text-align: right">id</th>
+      <th style="text-align: right">minutes</th>
+      <th style="text-align: right">contributor_id</th>
+      <th style="text-align: left">submitted</th>
+      <th style="text-align: left">tags</th>
+      <th style="text-align: left">nutrition</th>
+      <th style="text-align: right">n_steps</th>
+      <th style="text-align: left">steps</th>
+      <th style="text-align: left">description</th>
+      <th style="text-align: left">ingredients</th>
+      <th style="text-align: right">n_ingredients</th>
+      <th style="text-align: right">average_rating</th>
+      <th style="text-align: right">is_american</th>
+      <th style="text-align: right">saturated_fat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1 brownies in the world    best ever</td>
+      <td style="text-align: right">333281</td>
+      <td style="text-align: right">40</td>
+      <td style="text-align: right">985201</td>
+      <td style="text-align: left">2008-10-27</td>
+      <td style="text-align: left">[‘60-minutes-or-less’, ‘time-to-make’, ‘course’, ‘main-ingredient’, ‘preparation’, ‘for-large-groups’, ‘desserts’, ‘lunch’, ‘snacks’, …]</td>
+      <td style="text-align: left">[‘138.4’, ‘10.0’, ‘50.0’, ‘3.0’, ‘3.0’, ‘19.0’, ‘6.0’]</td>
+      <td style="text-align: right">10</td>
+      <td style="text-align: left">[‘heat the oven to 350f and arrange the rack in the middle’, ‘line an 8-by-8-inch glass…’]</td>
+      <td style="text-align: left">these are the most; chocolatey, moist, rich, dense, fudgy, delicious brownies that you’ll ever make…..sereiously! there’s no doubt that these will be your fav brownies ever for you can add things to them or make them plain…..either way they’re pure heaven!</td>
+      <td style="text-align: left">[‘bittersweet chocolate’, ‘unsalted butter’, ‘eggs’, ‘granulated sugar’, ‘unsweetened cocoa powder’, ‘vanilla extract’, ‘brewed espresso’, ‘kosher salt’, ‘all-purpose flour’]</td>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">19</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">1 in canada chocolate chip cookies</td>
+      <td style="text-align: right">453467</td>
+      <td style="text-align: right">45</td>
+      <td style="text-align: right">1848091</td>
+      <td style="text-align: left">2011-04-11</td>
+      <td style="text-align: left">[‘60-minutes-or-less’, ‘time-to-make’, ‘cuisine’, ‘preparation’, ‘north-american’, ‘for-large-groups’, ‘canadian’, ‘british-columbian’, ‘number-of-servings’]</td>
+      <td style="text-align: left">[‘595.1’, ‘46.0’, ‘211.0’, ‘22.0’, ‘13.0’, ‘51.0’, ‘26.0’]</td>
+      <td style="text-align: right">12</td>
+      <td style="text-align: left">[‘pre-heat oven the 350 degrees f’, ‘in a mixing bowl ‘, ‘sift together the flours and baking powder’, …’]</td>
+      <td style="text-align: left">this is the recipe that we use at my school cafeteria for chocolate chip cookies. they must be the best chocolate chip cookies i have ever had! if you don’t have margarine or don’t like it, then just use butter (softened) instead.</td>
+      <td style="text-align: left">[‘white sugar’, ‘brown sugar’, ‘salt’, ‘margarine’, ‘eggs’, ‘vanilla’, ‘water’, ‘all-purpose flour’, ‘whole wheat flour’, ‘baking soda’, ‘chocolate chips’]</td>
+      <td style="text-align: right">11</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">51</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">412 broccoli casserole</td>
+      <td style="text-align: right">306168</td>
+      <td style="text-align: right">40</td>
+      <td style="text-align: right">50969</td>
+      <td style="text-align: left">2008-05-30</td>
+      <td style="text-align: left">[‘60-minutes-or-less’, ‘time-to-make’, ‘course’, ‘main-ingredient’, ‘preparation’, ‘side-dishes’, ‘vegetables’, ‘easy’, ‘beginner-cook’, ‘broccoli’]</td>
+      <td style="text-align: left">[‘194.8’, ‘20.0’, ‘6.0’, ‘32.0’, ‘22.0’, ‘36.0’, ‘3.0’]</td>
+      <td style="text-align: right">6</td>
+      <td style="text-align: left">[‘preheat oven to 350 degrees’, ‘spray a 2 quart baking dish with cooking spray ‘, ‘set aside’, …’]</td>
+      <td style="text-align: left">since there are already 411 recipes for broccoli casserole posted to “zaar” ,i decided to call this one  #412 broccoli casserole.i don’t think there are any like this one in the database. i based this one on the famous “green bean casserole” from campbell’s soup. but i think mine is better since i don’t like cream of mushroom soup.submitted to “zaar” on may 28th,2008</td>
+      <td style="text-align: left">[‘frozen broccoli cuts’, ‘cream of chicken soup’, ‘sharp cheddar cheese’, ‘garlic powder’, ‘ground black pepper’, ‘salt’, ‘milk’, ‘soy sauce’, ‘french-fried onions’]</td>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">36</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">millionaire pound cake</td>
+      <td style="text-align: right">286009</td>
+      <td style="text-align: right">120</td>
+      <td style="text-align: right">461724</td>
+      <td style="text-align: left">2008-02-12</td>
+      <td style="text-align: left">[‘time-to-make’, ‘course’, ‘cuisine’, ‘preparation’, ‘occasion’, ‘north-american’, ‘desserts’, ‘american’, ‘southern-united-states’, ‘dinner-party’, …]</td>
+      <td style="text-align: left">[‘878.3’, ‘63.0’, ‘326.0’, ‘13.0’, ‘20.0’, ‘123.0’, ‘39.0’]</td>
+      <td style="text-align: right">7</td>
+      <td style="text-align: left">[‘freheat the oven to 300 degrees’, ‘grease a 10-inch tube pan with butter ‘, ‘dust the bottom and sides with flour ‘, …’]</td>
+      <td style="text-align: left">why a millionaire pound cake?  because it’s super rich!  this scrumptious cake is the pride of an elderly belle from jackson, mississippi.  the recipe comes from “the glory of southern cooking” by james villas.</td>
+      <td style="text-align: left">[‘butter’, ‘sugar’, ‘eggs’, ‘all-purpose flour’, ‘whole milk’, ‘pure vanilla extract’, ‘almond extract’]</td>
+      <td style="text-align: right">7</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">123</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2000 meatloaf</td>
+      <td style="text-align: right">475785</td>
+      <td style="text-align: right">90</td>
+      <td style="text-align: right">2202916</td>
+      <td style="text-align: left">2012-03-06</td>
+      <td style="text-align: left">[‘time-to-make’, ‘course’, ‘main-ingredient’, ‘preparation’, ‘main-dish’, ‘potatoes’, ‘vegetables’, ‘4-hours-or-less’, ‘meatloaf’, ‘simply-potatoes2’]</td>
+      <td style="text-align: left">[‘267.0’, ‘30.0’, ‘12.0’, ‘12.0’, ‘29.0’, ‘48.0’, ‘2.0’]</td>
+      <td style="text-align: right">17</td>
+      <td style="text-align: left">[‘pan fry bacon ‘, ‘and set aside on a paper towel to absorb excess grease’, ‘mince yellow onion ‘, ‘red bell pepper ‘, ‘and add to your mixing bowl’, …’]</td>
+      <td style="text-align: left">ready, set, cook! special edition contest entry: a mediterranean flavor inspired meatloaf dish. featuring: simply potatoes - shredded hash browns, egg, bacon, spinach, red bell pepper, and goat cheese.</td>
+      <td style="text-align: left">[‘meatloaf mixture’, ‘unsmoked bacon’, ‘goat cheese’, ‘unsalted butter’, ‘eggs’, ‘baby spinach’, ‘yellow onion’, ‘red bell pepper’, ‘simply potatoes shredded hash browns’, ‘fresh garlic’, ‘kosher salt’, ‘white pepper’, ‘olive oil’]</td>
+      <td style="text-align: right">13</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">48</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<p>To understand more about our data and explore possible features for our model, we will perform EDA.</p>
+
+<h3 id="univariate-analysis">Univariate Analysis</h3>
+<p>Firstly, we made a plot that shows the distribution of average ratings.</p>
+
+<iframe src="assets/average_rating_histogram.html" width="800" height="600" frameborder="0"></iframe>
+
+<p>The plot shows a large number of 5-star ratings by a huge margin. This could mean that people are either generous with their ratings or the fact that higher reviews would lead to more views, resulting in even more reviews.</p>
+
+<p>However, this isn’t ideal because the average rating doesn’t say much about the actual quality of the recipe. Therefore, we chose not to make further analyses involving the average ratings.</p>
+
+<p>Secondly, we were interested in the number of reviews of each recipe.</p>
+
+<iframe src="assets/num_reviews_histogram.html" width="800" height="600"></iframe>
+
+<p>The plot shows that the majority of recipes only have 1 review, so further analyses involving this would also lead to weak conclusions.</p>
+
+<h3 id="bivariate-analysis">Bivariate Analysis</h3>
+<p>We’ll conduct a bivariate analysis next. We are interested in the saturated fat content in American vs Non-American recipes. We will plot a percentage histogram to compare the distributions.</p>
+
+<p><strong>Note:</strong> We zoomed in on the plot to see the distribution better without outliers.</p>
+
+<iframe src="assets/american_vs_nonamerican.html" width="1000" height="600"></iframe>
+
+<p>While it might seem that their distributions are the same, notice that non-American recipes have a higher percentage of low saturated fat food.</p>
+
+<p>We’ll do box plot next to examine this difference further.</p>
+
+<p><strong>Note:</strong> We zoomed in on the plot to see the distribution better without outliers.</p>
+
+<iframe src="assets/american_vs_nonamerican_boxplot.html" width="800" height="600"></iframe>
+
+<p>Below is the plot made into a dataframe, if you want to see the numerical values directly:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">is_american</th>
+      <th style="text-align: right">count</th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">std</th>
+      <th style="text-align: right">min</th>
+      <th style="text-align: right">25%</th>
+      <th style="text-align: right">50%</th>
+      <th style="text-align: right">75%</th>
+      <th style="text-align: right">max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">74525</td>
+      <td style="text-align: right">39.6932</td>
+      <td style="text-align: right">80.0602</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">6</td>
+      <td style="text-align: right">20</td>
+      <td style="text-align: right">48</td>
+      <td style="text-align: right">6875</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">9257</td>
+      <td style="text-align: right">44.6811</td>
+      <td style="text-align: right">87.3526</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">25</td>
+      <td style="text-align: right">55</td>
+      <td style="text-align: right">4610</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>It seems from these plots that American recipes typically have higher saturated fat content. We will use a hypothesis test later to test if this is statistically significant.</p>
+
+<h3 id="interesting-aggregates">Interesting Aggregates</h3>
+<p>We categorized the saturated fat content of each recipe into several bins, grouped by those bins, and calculated the average rating across each bin. We do this to see if higher saturated fat recipes have higher ratings or not.</p>
+
+<p><strong>Note:</strong> We didn’t include recipes with a saturated fat content above 200% of daily value so you can view the plot better.</p>
+
+<iframe src="assets/rating_vs_saturatedfat_plot.html" width="800" height="600"></iframe>
+
+<p>The plot suggests that the average rating for each bin is roughly equal. This makes sense given that a vast majority of the data has a high rating as we saw in the <strong>Univariate Analysis</strong> earlier. This further enforces the idea that the rating column isn’t a good measure of the quality of the recipe.</p>
+
+<h2 id="assessment-of-missingness">Assessment of Missingness</h2>
+<p>Moving on, we wanted to assess the missingness in our data.</p>
+
+<p>Here is a breakdown of the missing data in <code class="language-plaintext highlighter-rouge">recipes</code>:</p>
+
+<p>total missing values:  2680</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">column</th>
+      <th style="text-align: right">no. missing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">id</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">name</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">minutes</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">contributor_id</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">submitted</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">tags</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">nutrition</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">n_steps</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">steps</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">description</td>
+      <td style="text-align: right">70</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ingredients</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">n_ingredients</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">average_rating</td>
+      <td style="text-align: right">2609</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">num_reviews</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">is_american</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">saturated_fat</td>
+      <td style="text-align: right">0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here is a breakdown of the missing data in <code class="language-plaintext highlighter-rouge">interactions</code>:</p>
+
+<p>total missing values:  52001</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">column</th>
+      <th style="text-align: right">no. missing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">user_id</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">recipe_id</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">date</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">rating</td>
+      <td style="text-align: right">51832</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">review</td>
+      <td style="text-align: right">169</td>
+    </tr>
+  </tbody>
+</table>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">name</code>:
+    <ul>
+      <li>We notice that there is only 1 missing value across tens of thousands of rows. Performing any missingness analyses on this column would not be insightful, but if we were to assess its missingness, it would most likely be MCAR because any permutation tests to verify this would consist of 1 row compared to tens of thousands of rows.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">review</code>:
+    <ul>
+      <li>We believe that the missingness of <code class="language-plaintext highlighter-rouge">review</code> is NMAR, because a review is usually only written if a user has strong feelings towards a recipe. So we suspect reviews that convey an impression of “average” are more likely to be missing.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">description</code>:
+    <ul>
+      <li>We believe that the missing values here are NMAR because some users may assume their recipe is already common knowledge or it’s self-explanatory. So we suspect that descriptions that would have been too short or convey nothing new would be missing.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">average_rating</code>:
+    <ul>
+      <li>The missingness of this column is trivial, since we made this column ourselves in data cleaning and wrangling. If all the <code class="language-plaintext highlighter-rouge">ratings</code> for a recipe is missing, then <code class="language-plaintext highlighter-rouge">average_rating</code> would be missing, meaning it’s MAR depending on the <code class="language-plaintext highlighter-rouge">ratings</code>.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">ratings</code>:
+    <ul>
+      <li>We believe that missing values are MCAR, but there is a possibility that it’s MAR because users might be more likely to finish and therefore leave ratings for recipes with fewer steps or shorter cooking times. To be sure, we perform a permutation test with the following hypotheses:</li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li><strong>Null Hypothesis:</strong> The missingness of <code class="language-plaintext highlighter-rouge">ratings</code> is not dependent on <code class="language-plaintext highlighter-rouge">n_steps</code>.</li>
+  <li><strong>Alternative Hypothesis:</strong> The missingness of <code class="language-plaintext highlighter-rouge">ratings</code> is dependent on <code class="language-plaintext highlighter-rouge">n_steps</code>.</li>
+  <li><strong>Test statistic:</strong> Absolute difference betweem mean n_steps of recipes with missing ratings and mean n_steps of recipes with non-missing ratings. Although we will also use ks2samp to verify our results.</li>
+  <li><strong>Significance level:</strong> 0.05</li>
+</ul>
+
+<p><strong>Note:</strong> We are performing the permutation test on the merged dataframe.</p>
+
+<p>This is the result of the permutation test using the absolute difference of means:</p>
+<iframe src="assets/permtest.html" width="800" height="600"></iframe>
+
+<p>The observed difference is far from the results from our simulations under the null, as a result our <strong>p-value is 0</strong>. Using the Kolmogorov-Smirnov test statistic also yields a p-value of 0. Therefore, we <strong>reject the null hypothesis</strong>, which suggests that the missingness of <code class="language-plaintext highlighter-rouge">ratings</code> is dependent on <code class="language-plaintext highlighter-rouge">n_steps</code>.</p>
+
+<p>Let’s look at the distribution of <code class="language-plaintext highlighter-rouge">n_steps</code> based on if <code class="language-plaintext highlighter-rouge">ratings</code> has a missing value or not.</p>
+
+<iframe src="assets/n_steps_rating_missing.html" width="800" height="600"></iframe>
+
+<p>The plot shows that at around n=7 steps, there are more non-missing than missing ratings. It might be because at around n=7 steps, people become more faithful to following the recipe step by step. Below 7, the dish is simple enough to infer the steps yourself. Higher than 7, the dish is too complex that people get lazy to follow all the steps. When you don’t faithfully follow the recipe, you are less likely to leave a rating because the end product would be more your responsibility than the recipe’s. But around n=7 seem to be the sweet spot where people would faithfully follow the recipe and therefore give a rating. The distribution plot seems consistent with the results of our permutation test: The missingness is MAR depending on n_steps.</p>
+
+<p>Now, we want to find another column where the missingness of ratings doesn’t depend on the column. We performed the same permutation test with the remaining numerical columns: <code class="language-plaintext highlighter-rouge">minutes</code> and <code class="language-plaintext highlighter-rouge">n_ingredients</code>.</p>
+
+<p>We discovered that <code class="language-plaintext highlighter-rouge">minutes</code> is the only option where we fail to reject using the absolute difference of means.</p>
+
+<ul>
+  <li><strong>Null Hypothesis:</strong> The missingness of <code class="language-plaintext highlighter-rouge">ratings</code> is not dependent on <code class="language-plaintext highlighter-rouge">minutes</code>.</li>
+  <li><strong>Alternative Hypothesis:</strong> The missingness of <code class="language-plaintext highlighter-rouge">ratings</code> is dependent on <code class="language-plaintext highlighter-rouge">minutes</code>.</li>
+  <li><strong>Test statistic:</strong> The absolute difference between mean minutes of recipes with missing ratings and mean minutes of recipes with non-missing ratings.</li>
+  <li><strong>Significance level:</strong> 0.05</li>
+</ul>
+
+<iframe src="assets/permtest2.html" width="800" height="600"></iframe>
+
+<p>Our <strong>p-value for this test was 0.129</strong>, which is not statistically significant, meaning we <strong>fail to reject the null</strong>. This suggests that the missingness of <code class="language-plaintext highlighter-rouge">ratings</code> is not dependent on <code class="language-plaintext highlighter-rouge">minutes</code>. <strong>However, when we verified using ks2_samp, the p-value was 0</strong>. Let’s look at the distribution of <code class="language-plaintext highlighter-rouge">minutes</code> based on if <code class="language-plaintext highlighter-rouge">ratings</code> has a missing value or not.</p>
+
+<p><strong>Note:</strong> We zoomed in on the plot to see the distribution better without outliers.</p>
+
+<iframe src="assets/minutes_missingness.html" width="800" height="600"></iframe>
+
+<p>It makes sense from this that the ks_2samp would tell us to reject the null. It seems that higher cooking times have a higher proportion of non-missing values. This makes sense because if you’re willing to commit that much time to cook a recipe, we would imagine you’d have stronger feelings about the outcome. For example, if I spent 3 hours cooking something following a recipe online and it turned out bad, I would be disappointed enough to leave a bad rating instead of just commenting without rating.</p>
+
+<p>This is also true for recipes past 2000 minutes because there are only few recipes with a cooking time higher than that. We tried the ks_2samp on every other possible numerical column, including all the nutritional values, but none of them failed to reject the null, even after taking into account outliers. This is completely unexpected, but possible. <strong>But at the very least the hypothesis test using absolute difference of means suggests that the missingness of <code class="language-plaintext highlighter-rouge">ratings</code> is not dependent on <code class="language-plaintext highlighter-rouge">minutes</code>.</strong></p>
+
+<h1 id="hypothesis-test-are-american-recipes-more-unhealthy">Hypothesis Test: Are American recipes more unhealthy?</h1>
+<p>Now to test our question: Are American foods significantly more unhealthy than non-American foods?</p>
+
+<p>Now, a healthy diet is usually a balanced diet, so we can’t conclude one nutrient is objectively better to always have more of. But we can at the very least say saturated fat is objectively <strong>bad</strong> for you. Many national and international health organizations, such as <a href="https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/fats/saturated-fats">The American Heart Association</a> and <a href="https://www.who.int/news/item/17-07-2023-who-updates-guidelines-on-fats-and-carbohydrates">World Health Organization</a> recommend either limiting or replacing saturated fat intake.</p>
+
+<p>We then want to perform a hypothesis test to determine if American recipes on food.com have more saturated fat than non-American foods, and if this difference is statistically significant.</p>
+
+<p>We observed that American recipes have higher median saturated fat than non-American recipes on the EDA. So, that will be our alternative hypothesis. Our hypotheses are:</p>
+<ul>
+  <li><strong>Null Hypothesis:</strong> American and Non-American recipes on food.com have the same amount of saturated fat.</li>
+  <li><strong>Alternative Hypothesis:</strong> American recipes have more saturated fat than Non-American recipes.</li>
+  <li><strong>Test statistic:</strong> <code class="language-plaintext highlighter-rouge">Median saturated fat in American recipes</code> - <code class="language-plaintext highlighter-rouge">Median saturated fat in Non-American recipes</code></li>
+  <li>Significance level: 0.05</li>
+</ul>
+
+<p><strong>Note that we chose to use the median as our test statistic</strong>. This is because our EDA revealed many outliers and also revealed that the saturated fat distribution is skewed. In cases like these, the median performs better.</p>
+
+<p>Our <strong>p-value here is 0</strong>. This means we can confidently <strong>reject the null hypothesis</strong>. This suggests that American recipes have more saturated fat than non-American recipes, and therefore more unhealthy.</p>
+
+<p>Out of curiosity, we also did the same permutation test but with difference of means. Our result is the same. The p-value is 0 and we reject the null.</p>
+
+<iframe src="assets/observed_vs_distofstats_diffofmeans.html" width="1000" height="600"></iframe>
+
+<p><strong>So are American recipes unhealthy?</strong> All our results, from exploratory data analysis to this hypothesis test suggest <strong>yes</strong>. Of course, this might not be the only reason why America has such a high obesity rate, but it is a factor. Other factors might include car dependency, access to food, health awareness, lifestyle, and many more.</p>
+
+<h1 id="framing-a-prediction-problem">Framing a Prediction Problem</h1>
+<p>One challenge we face as college students is trying to manage time. So we decided to build a model that could predict the total cooking time (in minutes) of whatever one might want to cook. This will be a regression problem.</p>
+
+<p>We will prioritize RMSE as our performance metric. We feel this is better than R^2 for this problem because when I want an estimate of how long a recipe will take to make, I’d be more worried about how “off” that estimate might be compared to how “good” the fit of my model is. RMSE is also more interpretable: if my RMSE is 10 minutes, then that means my estimate will probably be off by 10 minutes on average. So we will prioritize RMSE, but we will also still keep track of R^2 to see the fit of our model.</p>
+
+<p>One easy way to build a really accurate model for this is to look at the tags with that say ‘60-minutes-or-less’ or ‘30-minutes-or-less’. However, this would be uninteresting and also kind of defeat the purpose. In the “real world”, when you’re trying to cook a new recipe, you won’t know those tags. So we’ll ignore that. We will also ignore nutrition values other than calories. There’s no way we could know exactly how much carbs or protein our recipe will have, but people are generally more familiar with estimating calories, so we’ll use that.</p>
+
+<p>Our data also had a lot of outliers. We decided to filter out rows where <code class="language-plaintext highlighter-rouge">minutes</code> exceeded 3 hours, and rows where <code class="language-plaintext highlighter-rouge">calories</code> exceeded 2000, since 2000 calories is the recommended daily calorie intake of an adult male. Another reason is that we find it unrealistic that a recipe would have 2000 calories <strong>per serving</strong>. These are probably recipes uploaded in bad faith or unseriously by users.</p>
+
+<h1 id="baseline-model">Baseline Model</h1>
+<p>For our baseline model, these will be our features along with their types:</p>
+<ol>
+  <li>number of ingredients (discrete)</li>
+  <li>number of steps (discrete)</li>
+  <li>calories per serving (continuous)</li>
+</ol>
+
+<p><code class="language-plaintext highlighter-rouge">n_ingredients</code> and <code class="language-plaintext highlighter-rouge">n_steps</code> were already present in our dataframe. For calories per serving, we had to use ColumnTransformer to extract the value from <code class="language-plaintext highlighter-rouge">nutrition</code>. We put all the feature engineering and model training into one sklearn pipeline.</p>
+
+<p>We tried out 2 baseline models, a linear regression and a decision tree regressor. We suspect a linear regression model won’t work well. In our notebook, we made some scatterplots to explain why this is the case. The data points we plotted showed no patterns that could be modeled by a line. However, we’ll try both models anyway. We do a train test split to avoid overfitting. All the metrics that are reported here are calculated using the test data.</p>
+
+<ol>
+  <li><strong>Linear Regression</strong>
+    <ul>
+      <li>Test R^2:  0.21</li>
+      <li>Test RMSE:  27.37</li>
+    </ul>
+  </li>
+</ol>
+
+<p>As you can see it performs pretty badly. So, we choose to use a decision tree instead. We will set max_depth = 10 to avoid overfitting and set random_state=12 for reproducability.</p>
+
+<ol>
+  <li><strong>Decison Tree Regressor</strong>
+ Using K-Fold Cross Validation:
+    <ul>
+      <li>Mean RMSE: 28.32</li>
+      <li>Mean R2 Score: 0.17</li>
+    </ul>
+  </li>
+</ol>
+
+<p>On average, our current models are predicting around 27 minutes off the true value, which is quite inaccurate. For instance, if our model predicted that a recipe would take 30 minutes to make, but actually takes an hour, I would feel cheated.</p>
+
+<p>We suspect Random Forest Regressor will get better after we tune its hyperparameters. To improve our final model, we’ll use a random forest to avoid overfitting and GridSearchCV to tune our hyperparameters. We’ll also include more features and see if LinearRegression or RandomForestRegressor is better.</p>
+
+<h1 id="final-model">Final Model</h1>
+<p>Our final model uses the following features:</p>
+<ol>
+  <li>number of ingredients (discrete)</li>
+  <li>number of steps (discrete)</li>
+  <li>calories per serving (continuous): Extracted from <code class="language-plaintext highlighter-rouge">nutrition</code></li>
+  <li>ingredients (nominal):  There are too many unique ingredients in this whole dataset to feasibly one hot encode, so we’ll focus on a few common ingredients. That is, we’re going to feature engineer if a recipe contains these ingredients: <code class="language-plaintext highlighter-rouge">['beef', 'pork', 'chicken', 'corn', 'potatoes', 'rice', 'bread', 'pasta', 'milk', 'cheese', 'butter', 'sugar', 'flour', 'tomatoes', 'squash']</code>. Since there could be many types of the same ingredient (e.g. sweet corn vs normal corn, unsalted butter vs salted butter), we will make it so that any instance of that word appearing in the ingredients column means the ingredient is present. For example, if a recipe has ‘sweet corn’ as an ingredient, we consider that as containing corn. From this one-hot-encoding, we will have multiple new columns (e.g. <code class="language-plaintext highlighter-rouge">has_beef</code> is 1 if the recipe contains beef or 0 otherwise, <code class="language-plaintext highlighter-rouge">has_pork</code> is 1 if the recipe contains pork or 0 otherwise, etc.)</li>
+  <li>recipe type (nominal): We one hot encode if a recipe is of category ‘breakfast’, ‘lunch’, ‘dinner-party’, ‘desserts’, or ‘snacks’.</li>
+</ol>
+
+<p>We end up with a total of 23 features.</p>
+
+<h2 id="good-recipes-vs-all-recipes">Good Recipes vs All Recipes</h2>
+<p>We suspected that the fit of our model is bad because of bad data quality. Some people on food.com could just upload random recipes, with random n_steps, random minutes, random ingredients, etc. without proper correctness checks. So we’ll train some models on only “good quality” data points and see the results for that as well. We decide a data point is of “good quality” if it has an average rating &gt;=4. From the EDA, we saw there are a lot of recipes with an average rating above 4, so this wouldn’t hurt our sample size too much. The pipeline will still be the same.</p>
+
+<h2 id="optimizing-gridsearchcv-on-rmse-vs-r2">Optimizing GridSearchCV on RMSE vs R^2</h2>
+<p>We will also try out GridSearchCV optimized on minimizing RMSE vs maximizing R^2 to see if there are any differences.</p>
+
+<h2 id="hyperparameter-tuning">Hyperparameter Tuning</h2>
+<p>When using GridSearchCV for our Random Forest model, we will tune:</p>
+<ul>
+  <li><strong>the number of trees in our forest</strong>. This is to find a sweet spot between bias and variance, and ultimately avoid underfitting or overfitting. How we get the optimal number of tress is by trial and error.</li>
+  <li><strong>the max depth of each tree</strong>. Same reason as above. How we get the optimal max depth is by trial and error.</li>
+  <li><strong>criterions</strong>. This parameter tells RandomForestRegressor how it decides the best split. The reason we don’t go straight for mean squared error as the criterion is that a DecisionTreeRegressor only uses a criterion to optimize for the best local split, not necessarily minimize RMSE for the whole model. So it’s possible that the poisson criterion, for example, minimizes overall RMSE. It is for that reason we try out every possible criterion in the sklearn DecisionTreeRegressor object except for MAE. This is because MAE is very slow and makes GridSearchCV run for hours. Sadly, that is a limitation.</li>
+  <li><strong>max_features</strong>. This decides how many features each tree in the forest should be trained on. We try out None(all features), sqrt, and log2. This is basically trying out every possible option allowed by RandomForestRegressor, other than setting our own specific number.</li>
+</ul>
+
+<h2 id="comparison-of-models">Comparison of Models</h2>
+<p>We end up with <strong>7 models</strong> for us to compare the performances of and choose the best one. The table below shows each model along with their RMSE and R^2 test scores, sorted by smallest RMSE first. If RMSEs are tied, the higher R^2 is shown first.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">RMSE</th>
+      <th style="text-align: right">R^2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Random Forest Regressor on full recipes, optimized on R^2</td>
+      <td style="text-align: right">25.94</td>
+      <td style="text-align: right">0.29</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Random Forest Regressor on full recipes, optimized on RMSE</td>
+      <td style="text-align: right">25.94</td>
+      <td style="text-align: right">-672.79</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Random Forest Regressor on only good recipes, optimized on R^2</td>
+      <td style="text-align: right">25.97</td>
+      <td style="text-align: right">0.29</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Random Forest Regressor on only good recipes, optimized on RMSE</td>
+      <td style="text-align: right">25.97</td>
+      <td style="text-align: right">-674.24</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Linear Regression on full recipes</td>
+      <td style="text-align: right">26.62</td>
+      <td style="text-align: right">0.25</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Baseline Linear Regression</td>
+      <td style="text-align: right">27.37</td>
+      <td style="text-align: right">0.21</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Baseline Decision Tree Regressor</td>
+      <td style="text-align: right">28.32</td>
+      <td style="text-align: right">0.17</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Curiously, RMSE is the same regardless of if we optimize GridSearchCV for R^2 or RMSE. R^2 however becomes negative when optimizing on RMSE. There are a few possible explanations for why this is. The main idea is that when we optimize for RMSE (minimizing it), the model is focusing solely on reducing the absolute prediction error. However, this doesn’t guarantee that the model captures any underlying patterns in our data, which is what R^2 measures. So it is quite possible that for the same RMSE, we get different R^2.</p>
+
+<h2 id="our-final-model">Our Final Model</h2>
+<p>Our final model will be a <strong>Random Forest Regressor fit and tested on full recipes, tuned with GridSearchCV to maximize R^2 and therefore minimize RMSE</strong>.</p>
+
+<p>Compared to the baseline:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- R^2 improved from 0.17 to 0.29
+- RMSE improved from 28.32 minutes to 25.94 minutes
+</code></pre></div></div>
+
+<p>The best hyperparameters ended up being:</p>
+<ul>
+  <li>‘regressor__criterion’: ‘squared_error’</li>
+  <li>‘regressor__max_depth’: np.int64(16)</li>
+  <li>‘regressor__max_features’: ‘sqrt’</li>
+  <li>‘regressor__n_estimators’: np.int64(120)</li>
+</ul>
+
+<p>This RandomForestRegressor performs better than our baseline due to a few key differences:</p>
+<ul>
+  <li>More features
+    <ul>
+      <li>This model is able to make predictions based on what ingredients are being used. We would expect this to have some correlation with cooking time. For example, a recipe with no beef or pork, but with butter, sugar, and flour would suggest that it is a baking recipe, which typically takes longer to make. On the flip side, if a recipe only contains beef, it probably means you’re just cooking the beef on a frying pan, and it would probably be faster.</li>
+      <li>It is also able to make predictions based on the food type. For example, we would expect breakfast recipes to be faster to make because people don’t generally eat heavy and complex meals for breakfast.</li>
+      <li>More features also explains why our linear regression model performed better compared to the baseline.</li>
+    </ul>
+  </li>
+  <li>Random Forest vs Decision Tree
+    <ul>
+      <li>Our final model uses a RandomForestRegressor instead of a DecisionTreeRegressor. It only makes sense that a more complex model built from multiple trees would be able to make better predictions than one decision tree.</li>
+    </ul>
+  </li>
+  <li>Fine tuning with GridSearchCV
+    <ul>
+      <li>Our final model has also been tuned with GridSearchCV to find the best hyperparameters</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Looking at feature importances, it seems the top 3 most important features for our final model are n_steps, n_ingredients, and calories. This is to be expected.</p>
+
+<p>Still, we believe our final model isn’t very accurate. It’s still off by 26 minutes on average, after all. We believe the model is still inaccurate because the published recipes on food.com don’t have proper checks or consistent guidelines, which makes it possible for recipes to contain inaccurate information. However, we’ve included every possible feature that is both in our dataset, and a person could “know” before starting to cook. Any more than this wouldn’t be feasible with our limited compute and dataset.</p>
+
+<h1 id="fairness-analysis">Fairness Analysis</h1>
+<p>Since food.com is an American website, we decide to see if our model works better on American recipes vs non-American recipes.</p>
+
+<p>We observe that non-American RMSE is higher than American RMSE, so our hypothesis test will be:</p>
+<ul>
+  <li><strong>Null hypothesis:</strong> Our model’s RMSE is the same for American recipes and non-American recipes</li>
+  <li><strong>Alternative hypothesis:</strong> Our model’s RMSE is higher for non-American recipes than for American recipes</li>
+  <li><strong>Test statistic:</strong> RMSE in non-American recipes - RMSE in American recipes</li>
+  <li><strong>Significance level:</strong> 0.05</li>
+</ul>
+
+<iframe src="assets/fairness_permtest.html" width="800" height="600"></iframe>
+
+<p><strong>Our P-value is 0.355, which is higher than 0.05, so we fail to reject the null hypothesis</strong>. This suggests that our model’s RMSE is the same for American recipes and non-American recipes, and is therefore fair between American recipes and non-American recipes.</p>
 
 
       <footer class="site-footer">
