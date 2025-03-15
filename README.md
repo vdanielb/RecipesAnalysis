@@ -14,7 +14,7 @@
     - [Univariate Analysis](#univariate-analysis)
     - [Bivariate Analysis](#bivariate-analysis)
     - [Interesting Aggregates](#interesting-aggregates)
-  - [Assessment of Missingness](#assessment-of-missingness)
+- [Assessment of Missingness](#assessment-of-missingness)
 - [Hypothesis Test: Are American recipes more unhealthy?](#hypothesis-test-are-american-recipes-more-unhealthy)
 - [Framing a Prediction Problem](#framing-a-prediction-problem)
 - [Baseline Model](#baseline-model)
@@ -133,7 +133,7 @@ We categorized the saturated fat content of each recipe into several bins, group
 
 The plot suggests that the average rating for each bin is roughly equal. This makes sense given that a vast majority of the data has a high rating as we saw in the **Univariate Analysis** earlier. This further enforces the idea that the rating column isn't a good measure of the quality of the recipe.
 
-## Assessment of Missingness
+# Assessment of Missingness
 Moving on, we wanted to assess the missingness in our data.
 
 Here is a breakdown of the missing data in `recipes`:
@@ -275,7 +275,7 @@ We tried out 2 baseline models, a linear regression and a decision tree regresso
 
 As you can see it performs pretty badly. So, we choose to use a decision tree instead. We will set max_depth = 10 to avoid overfitting and set random_state=12 for reproducability. 
 
-1. **Decison Tree Regressor**
+2. **Decison Tree Regressor**
     Using K-Fold Cross Validation:
    - Mean RMSE: 28.32
    - Mean R2 Score: 0.17
