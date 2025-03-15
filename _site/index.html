@@ -342,7 +342,7 @@
 
 <p><strong>Note:</strong> We zoomed in on the plot to see the distribution better without outliers.</p>
 
-<iframe src="assets/american_vs_nonamerican.html" width="800" height="600"></iframe>
+<iframe src="assets/american_vs_nonamerican.html" width="1000" height="600"></iframe>
 
 <p>While it might seem that their distributions are the same, notice that non-American recipes have a higher percentage of low saturated fat food.</p>
 
@@ -610,13 +610,11 @@
 
 <p><strong>Note that we chose to use the median as our test statistic</strong>. This is because our EDA revealed many outliers and also revealed that the saturated fat distribution is skewed. In cases like these, the median performs better.</p>
 
-<iframe src="assets/observed_vs_distofstats.html" width="800" height="600"></iframe>
-
 <p>Our <strong>p-value here is 0</strong>. This means we can confidently <strong>reject the null hypothesis</strong>. This suggests that American recipes have more saturated fat than non-American recipes, and therefore more unhealthy.</p>
 
 <p>Out of curiosity, we also did the same permutation test but with difference of means. Our result is the same. The p-value is 0 and we reject the null.</p>
 
-<iframe src="assets/observed_vs_distofstats_diffofmeans.html" width="800" height="600"></iframe>
+<iframe src="assets/observed_vs_distofstats_diffofmeans.html" width="1000" height="600"></iframe>
 
 <p><strong>So are American recipes unhealthy?</strong> All our results, from exploratory data analysis to this hypothesis test suggest <strong>yes</strong>. Of course, this might not be the only reason why America has such a high obesity rate, but it is a factor. Other factors might include car dependency, access to food, health awareness, lifestyle, and many more.</p>
 
@@ -788,6 +786,19 @@
 <p>Still, we believe our final model isn’t very accurate. It’s still off by 26 minutes on average, after all. We believe the model is still inaccurate because the published recipes on food.com don’t have proper checks or consistent guidelines, which makes it possible for recipes to contain inaccurate information. However, we’ve included every possible feature that is both in our dataset, and a person could “know” before starting to cook. Any more than this wouldn’t be feasible with our limited compute and dataset.</p>
 
 <h1 id="fairness-analysis">Fairness Analysis</h1>
+<p>Since food.com is an American website, we decide to see if our model works better on American recipes vs non-American recipes.</p>
+
+<p>We observe that non-American RMSE is higher than American RMSE, so our hypothesis test will be:</p>
+<ul>
+  <li><strong>Null hypothesis:</strong> Our model’s RMSE is the same for American recipes and non-American recipes</li>
+  <li><strong>Alternative hypothesis:</strong> Our model’s RMSE is higher for non-American recipes than for American recipes</li>
+  <li><strong>Test statistic:</strong> RMSE in non-American recipes - RMSE in American recipes</li>
+  <li><strong>Significance level:</strong> 0.05</li>
+</ul>
+
+<iframe src="assets/fairness_permtest.html" width="800" height="600"></iframe>
+
+<p><strong>Our P-value is 0.355, which is higher than 0.05, so we fail to reject the null hypothesis</strong>. This suggests that our model’s RMSE is the same for American recipes and non-American recipes, and is therefore fair between American recipes and non-American recipes.</p>
 
 
       <footer class="site-footer">
